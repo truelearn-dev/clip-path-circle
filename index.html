@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Clip-path Circle Demo</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width" />
+  <style>
+    .main-container {
+      display: flex;
+      align-items: start;
+    }
+    .container {
+      position: relative;
+      width: 200px;
+      height: 200px;
+    }
+
+    .card {
+      background-color: #88aacc;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+    }
+
+    .overlay {
+      background-color: rgba(255, 0, 0, 0.5); /* Semi-transparent red */
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      z-index: 1; /* Position it above .card */
+    }
+
+    .overlay.hidden {
+      display: none;
+    }
+
+    textarea {
+      margin-left: 20px;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/page2.html" aria-current="page">Other page</a>
+  </nav>
+  <main>
+    <div class="main-container">
+      <div class="container">
+        <div class="card" id="card"></div>
+        <div class="overlay" id="overlay"></div>
+      </div>
+      <textarea id="cssOutput" rows="10" cols="30" readonly></textarea>
+    </div>
+    <div>
+      <button id="toggleOverlay">Toggle Overlay</button>
+    </div>
+    <div>
+      <label for="radius">Radius: </label>
+      <input type="range" id="radius" min="10" max="100" step="1" value="50">
+    </div>
+    <div>
+      <label for="xPos">X Position (%): </label>
+      <input type="range" id="xPos" min="0" max="100" step="1" value="0">
+    </div>
+    <div>
+      <label for="yPos">Y Position (%): </label>
+      <input type="range" id="yPos" min="0" max="100" step="1" value="0">
+    </div>
+  </main>
+  <script>
+    const card = document.getElementById('card');
+    const overlay = document.getElementById('overlay');
+    const toggleOverlayBtn = document.getElementById('toggleOverlay');
+    const radiusInput = document.getElementById('radius');
+    const xPosInput = document.getElementById('xPos');
+    const yPosInput = document.getElementById('yPos');
+
+    function updateClipPath() {
+      const radius = radiusInput.value;
+      const xPos = xPosInput.value;
+      const yPos = yPosInput.value;
+      card.style.clipPath = `circle(${radius}px at ${xPos}% ${yPos}%)`;
+
+      // Update the textarea
+      const cssOutput = `clip-path: circle(${radius}px at ${xPos}% ${yPos}%);`;
+      document.getElementById('cssOutput').value = cssOutput;
+    }
+
+    function toggleOverlay() {
+      overlay.classList.toggle('hidden');
+    }
+
+    radiusInput.addEventListener('input', updateClipPath);
+    xPosInput.addEventListener('input', updateClipPath);
+    yPosInput.addEventListener('input', updateClipPath);
+    toggleOverlayBtn.addEventListener('click', toggleOverlay);
+
+    // Initial update
+    updateClipPath();
+  </script>
+</body>
+</html>
